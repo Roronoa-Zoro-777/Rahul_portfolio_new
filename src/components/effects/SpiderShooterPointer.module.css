@@ -1,0 +1,148 @@
+.overlay {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.webCanvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.cursorRing {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(0, 0, 0);
+  transition: opacity 100ms ease;
+  will-change: transform;
+}
+
+.cursorLift {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 38px;
+  height: 38px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  transform: translate(-50%, -50%);
+  transition: transform 120ms ease;
+}
+
+.cursorFace {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 28%, rgba(71, 85, 105, 0.72), transparent 58%),
+    rgba(5, 8, 16, 0.94);
+  box-shadow:
+    0 0 0 2px rgba(5, 8, 16, 0.88),
+    0 0 12px rgba(226, 232, 240, 0.58),
+    inset 0 0 8px rgba(0, 0, 0, 0.9);
+  scale: 1;
+  transition:
+    border-color 140ms ease,
+    box-shadow 140ms ease,
+    scale 100ms ease;
+}
+
+.cursorRing[data-visible="true"] {
+  opacity: 1;
+}
+
+.cursorRing[data-hovering="true"] .cursorLift {
+  transform: translate(-50%, calc(-50% - var(--hover-lift, 38px)));
+}
+
+.cursorRing[data-hovering="true"] .cursorFace {
+  border-color: rgba(226, 54, 54, 0.96);
+  box-shadow:
+    0 0 0 2px rgba(5, 8, 16, 0.88),
+    0 0 0 1px rgba(226, 54, 54, 0.18),
+    0 0 12px rgba(226, 54, 54, 0.72),
+    inset 0 0 8px rgba(0, 0, 0, 0.9);
+  scale: 0.78;
+}
+
+.cursorRing[data-pressed="true"] .cursorFace {
+  scale: 0.66;
+}
+
+.cursorWebSymbol {
+  width: 36px;
+  height: 36px;
+  overflow: visible;
+  filter:
+    drop-shadow(0 1px 1px rgba(0, 0, 0, 0.95))
+    drop-shadow(0 0 2px rgba(226, 232, 240, 0.48));
+}
+
+.webLines {
+  stroke: rgba(203, 213, 225, 0.82);
+  stroke-width: 0.55;
+}
+
+.spiderLegs {
+  stroke: #cbd5e1;
+  stroke-width: 1.05;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.spiderAbdomen {
+  fill: url("#spider-shell");
+  stroke: url("#spider-metal");
+  stroke-width: 0.75;
+}
+
+.spiderHead {
+  fill: url("#spider-shell");
+  stroke: #cbd5e1;
+  stroke-width: 0.7;
+}
+
+.spiderMark {
+  fill: #e23636;
+  stroke: #fca5a5;
+  stroke-width: 0.4;
+}
+
+.spiderEye {
+  fill: url("#spider-eye");
+  filter: drop-shadow(0 0 1px rgba(226, 54, 54, 0.9));
+}
+
+:global(body).cursorEnabled {
+  cursor: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cursorRing {
+    display: flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursorLift,
+  .cursorFace {
+    transition: none;
+  }
+}
